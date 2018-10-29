@@ -36,9 +36,9 @@ class App extends Component {
             })
         };
 
-        inputChangeHandler = (event, key) => {
+        inputChangeHandler = (event, name) => {
             const { itemToDisplay } = this.state;
-            itemToDisplay[key] = event.target.value;
+            itemToDisplay[name] = event.target.value;
             this.setState({itemToDisplay});
         };
 
@@ -74,11 +74,7 @@ class App extends Component {
 
   render() {
     const { itemToDisplay, userList, isEditing } = this.state;
-    const userListMarkup = userList.map((user)=>{
-        return (
-            <li key={user.id} onClick={() => this.selectUser(user)}>{user.username}</li>
-        )
-    });
+    const userListMarkup = userList.map((user, idx)=> <li key={idx} onClick={() => this.selectUser(user)}>{user.username}:{user.name}</li>);
 
     return (
       <div className="App">
@@ -118,16 +114,8 @@ class App extends Component {
                           </div>
 
                           {
-                              isEditing ? (
-                                  <div>
-                                    <button onClick={this.saveUserChanges}>Save Changes</button>
-                                  </div>
-                              ) : (
-                                  <div>
-                                      <button onClick={this.handleEditClick}>Edit</button>
-                                      <button onClick={this.deleteUser}>Delete</button>
-                                  </div>
-                              )
+                              isEditing ? <div><button onClick={this.saveUserChanges}>Save Changes</button></div>: <div><button onClick={this.handleEditClick}>Edit</button><button onClick={this.deleteUser}>Delete</button></div>
+
                           }
                           <span className="close-icon" onClick={this.hideUserDetails}> X </span>
                       </div>
